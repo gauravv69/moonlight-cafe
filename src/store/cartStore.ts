@@ -18,6 +18,13 @@ export interface CartItem {
   customization: PizzaCustomization;
 }
 
+export interface PastOrder {
+  id: string;
+  time: string;
+  items: CartItem[];
+  total: number;
+}
+
 interface CartState {
   cart: CartItem[];
   isOpen: boolean;
@@ -26,11 +33,9 @@ interface CartState {
   deliveryMethod: "delivery" | "pickup";
   deliveryFee: number;
   tableNumber: string | null;
-  lastOrderTime: string | null;
-  lastOrderItems: CartItem[] | null;
+  orderHistory: PastOrder[];
   setTableNumber: (table: string | null) => void;
-  setLastOrderTime: (time: string | null) => void;
-  setLastOrderItems: (items: CartItem[] | null) => void;
+  addOrderToHistory: (order: Omit<PastOrder, "id">) => void;
   openCart: () => void;
   closeCart: () => void;
   addToCart: (item: Omit<CartItem, "cartItemId">) => void;
@@ -64,12 +69,15 @@ export const useCartStore = create<CartState>()(
   deliveryMethod: "delivery",
   deliveryFee: 120,
   tableNumber: null,
-  lastOrderTime: null,
-  lastOrderItems: null,
+  orderHistory: [],
 
   setTableNumber: (table) => set({ tableNumber: table }),
-  setLastOrderTime: (time) => set({ lastOrderTime: time }),
-  setLastOrderItems: (items) => set({ lastOrderItems: items }),
+  addOrderToHistory: (order) => set((state) => ({
+    orderHistory: [
+      { ...order, id: Math.random().toString(36).substr(2, 9) },
+      ...state.orderHistory
+    ]
+  })),
   openCart: () => set({ isOpen: true }),
   closeCart: () => set({ isOpen: false }),
 
@@ -159,8 +167,7 @@ export const useCartStore = create<CartState>()(
       name: "moonlight-cart-storage",
       partialize: (state) => ({ 
         cart: state.cart,
-        lastOrderTime: state.lastOrderTime,
-        lastOrderItems: state.lastOrderItems
+        orderHistory: state.orderHistory
       }),
     }
   )

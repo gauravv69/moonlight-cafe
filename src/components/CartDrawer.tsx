@@ -21,10 +21,8 @@ export const CartDrawer: React.FC = () => {
     getTotal,
     tableNumber,
     clearCart,
-    lastOrderTime,
-    setLastOrderTime,
-    lastOrderItems,
-    setLastOrderItems,
+    orderHistory,
+    addOrderToHistory,
   } = useCartStore();
 
   const [promoInput, setPromoInput] = useState("");
@@ -51,8 +49,11 @@ export const CartDrawer: React.FC = () => {
     window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
     
     // Clear cart and close everything after ordering
-    setLastOrderTime(new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }));
-    setLastOrderItems(cart);
+    addOrderToHistory({
+      time: new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }),
+      items: cart,
+      total: getTotal(),
+    });
     clearCart();
     setShowConfirmModal(false);
     closeCart();
@@ -125,39 +126,44 @@ export const CartDrawer: React.FC = () => {
                     <img src="/logo.jpg" alt="Moonlight Cafe" className="w-full h-full object-contain" />
                     <span className="absolute -inset-2 rounded-2xl border border-dashed border-brand-orange/20 animate-spin-slow pointer-events-none" />
                   </div>
-                  <div className="flex flex-col gap-2 max-w-sm">
-                    {lastOrderTime ? (
+                  <div className="flex flex-col gap-4 w-full">
+                    {orderHistory.length > 0 ? (
                       <>
-                        <h3 className="font-display font-bold uppercase tracking-wider text-[#25D366] text-md">
-                          Order Successfully Placed!
+                        <h3 className="font-display font-bold uppercase tracking-wider text-[#25D366] text-md text-center mb-2">
+                          Order History
                         </h3>
-                        <p className="text-sm font-light text-gray-subtle leading-relaxed mb-4">
-                          Your last order was sent to the chef on <span className="text-offwhite font-medium">{lastOrderTime}</span>.
-                        </p>
-                        
-                        {lastOrderItems && lastOrderItems.length > 0 && (
-                          <div className="w-full text-left bg-white/5 rounded-xl p-4 border border-white/5 flex flex-col gap-2 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
-                            <span className="text-[10px] uppercase font-bold tracking-widest text-brand-orange/80 pb-2 border-b border-glass-border">Receipt</span>
-                            <div className="flex flex-col gap-2 max-h-32 overflow-y-auto no-scrollbar">
-                              {lastOrderItems.map(item => (
-                                <div key={item.cartItemId} className="flex justify-between items-center text-xs">
-                                  <span className="text-gray-subtle"><span className="text-brand-orange">{item.quantity}x</span> {item.name}</span>
-                                  <span className="text-brand-beige font-sans">₹{(item.price * item.quantity).toFixed(0)}</span>
-                                </div>
-                              ))}
+                        <div className="flex flex-col gap-4">
+                          {orderHistory.map((order) => (
+                            <div key={order.id} className="w-full text-left bg-white/5 rounded-xl p-4 border border-white/5 flex flex-col gap-2 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
+                              <div className="flex justify-between items-center pb-2 border-b border-glass-border">
+                                <span className="text-[10px] uppercase font-bold tracking-widest text-brand-orange/80">Order</span>
+                                <span className="text-[10px] font-medium text-gray-subtle">{order.time}</span>
+                              </div>
+                              <div className="flex flex-col gap-2 my-2">
+                                {order.items.map(item => (
+                                  <div key={item.cartItemId} className="flex justify-between items-center text-xs">
+                                    <span className="text-gray-subtle"><span className="text-brand-orange">{item.quantity}x</span> {item.name}</span>
+                                    <span className="text-brand-beige font-sans">₹{(item.price * item.quantity).toFixed(0)}</span>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="flex justify-between items-center pt-2 border-t border-glass-border">
+                                <span className="text-xs uppercase font-bold text-offwhite">Total</span>
+                                <span className="text-xs font-bold text-brand-orange">₹{order.total.toFixed(0)}</span>
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          ))}
+                        </div>
                       </>
                     ) : (
-                      <>
+                      <div className="flex flex-col gap-2 text-center max-w-sm mx-auto">
                         <h3 className="font-display font-bold uppercase tracking-wider text-offwhite text-md">
                           Aesthetic Gallery is Empty
                         </h3>
                         <p className="text-sm font-light text-gray-subtle leading-relaxed">
                           Your wood-fired culinary masterpiece collection is currently empty. Add dynamic recipes to begin your journey.
                         </p>
-                      </>
+                      </div>
                     )}
                   </div>
                   <Link
