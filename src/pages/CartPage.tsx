@@ -84,17 +84,30 @@ export const CartPage: React.FC = () => {
       {cart.length === 0 ? (
         /* Empty State */
         <div className="glass-panel p-16 rounded-3xl border border-glass-border flex flex-col items-center justify-center text-center gap-6 max-w-2xl mx-auto w-full my-12 shadow-2xl">
-          <div className="relative w-24 h-24 rounded-full bg-brand-darkgray/30 flex items-center justify-center border border-glass-border">
-            <span className="text-4xl">🌙</span>
-            <div className="absolute inset-0 rounded-full border border-dashed border-brand-orange/30 animate-spin-slow" />
+          <div className="relative w-24 h-24 flex items-center justify-center animate-glow bg-black rounded-2xl overflow-hidden p-2 shadow-[0_0_30px_rgba(122,28,36,0.2)]">
+            <img src="/logo.jpg" alt="Moonlight Cafe" className="w-full h-full object-contain" />
+            <span className="absolute -inset-2 rounded-2xl border border-dashed border-brand-orange/20 animate-spin-slow pointer-events-none" />
           </div>
           <div className="flex flex-col gap-2">
-            <h3 className="font-display font-bold uppercase tracking-wider text-offwhite text-lg">
-              Sourdough Bag is Empty
-            </h3>
-            <p className="text-sm font-light text-gray-subtle leading-relaxed max-w-md">
-              No artisanal masterworks are currently selected. Wander back to our baking gallery and configure a recipe to initiate.
-            </p>
+            {lastOrderTime ? (
+              <>
+                <h3 className="font-display font-bold uppercase tracking-wider text-[#25D366] text-lg">
+                  Order Successfully Placed!
+                </h3>
+                <p className="text-sm font-light text-gray-subtle leading-relaxed max-w-md">
+                  Your last order was sent to the chef on <span className="text-offwhite font-medium">{lastOrderTime}</span>.
+                </p>
+              </>
+            ) : (
+              <>
+                <h3 className="font-display font-bold uppercase tracking-wider text-offwhite text-lg">
+                  Sourdough Bag is Empty
+                </h3>
+                <p className="text-sm font-light text-gray-subtle leading-relaxed max-w-md">
+                  No artisanal masterworks are currently selected. Wander back to our baking gallery and configure a recipe to initiate.
+                </p>
+              </>
+            )}
           </div>
           <Link
             to="/menu"

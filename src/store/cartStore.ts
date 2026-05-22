@@ -25,7 +25,9 @@ interface CartState {
   deliveryMethod: "delivery" | "pickup";
   deliveryFee: number;
   tableNumber: string | null;
+  lastOrderTime: string | null;
   setTableNumber: (table: string | null) => void;
+  setLastOrderTime: (time: string | null) => void;
   openCart: () => void;
   closeCart: () => void;
   addToCart: (item: Omit<CartItem, "cartItemId">) => void;
@@ -57,8 +59,10 @@ export const useCartStore = create<CartState>((set, get) => ({
   deliveryMethod: "delivery",
   deliveryFee: 120,
   tableNumber: null,
+  lastOrderTime: null,
 
   setTableNumber: (table) => set({ tableNumber: table }),
+  setLastOrderTime: (time) => set({ lastOrderTime: time }),
   openCart: () => set({ isOpen: true }),
   closeCart: () => set({ isOpen: false }),
 
