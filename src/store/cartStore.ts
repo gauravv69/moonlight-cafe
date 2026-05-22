@@ -27,8 +27,10 @@ interface CartState {
   deliveryFee: number;
   tableNumber: string | null;
   lastOrderTime: string | null;
+  lastOrderItems: CartItem[] | null;
   setTableNumber: (table: string | null) => void;
   setLastOrderTime: (time: string | null) => void;
+  setLastOrderItems: (items: CartItem[] | null) => void;
   openCart: () => void;
   closeCart: () => void;
   addToCart: (item: Omit<CartItem, "cartItemId">) => void;
@@ -63,9 +65,11 @@ export const useCartStore = create<CartState>()(
   deliveryFee: 120,
   tableNumber: null,
   lastOrderTime: null,
+  lastOrderItems: null,
 
   setTableNumber: (table) => set({ tableNumber: table }),
   setLastOrderTime: (time) => set({ lastOrderTime: time }),
+  setLastOrderItems: (items) => set({ lastOrderItems: items }),
   openCart: () => set({ isOpen: true }),
   closeCart: () => set({ isOpen: false }),
 
@@ -155,7 +159,8 @@ export const useCartStore = create<CartState>()(
       name: "moonlight-cart-storage",
       partialize: (state) => ({ 
         cart: state.cart,
-        lastOrderTime: state.lastOrderTime 
+        lastOrderTime: state.lastOrderTime,
+        lastOrderItems: state.lastOrderItems
       }),
     }
   )

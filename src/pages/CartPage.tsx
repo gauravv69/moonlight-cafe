@@ -20,6 +20,8 @@ export const CartPage: React.FC = () => {
     clearCart,
     lastOrderTime,
     setLastOrderTime,
+    lastOrderItems,
+    setLastOrderItems,
   } = useCartStore();
 
   const [promoInput, setPromoInput] = useState("");
@@ -47,6 +49,7 @@ export const CartPage: React.FC = () => {
     
     // Clear cart after ordering
     setLastOrderTime(new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }));
+    setLastOrderItems(cart);
     clearCart();
     setShowConfirmModal(false);
   };
@@ -97,9 +100,23 @@ export const CartPage: React.FC = () => {
                 <h3 className="font-display font-bold uppercase tracking-wider text-[#25D366] text-lg">
                   Order Successfully Placed!
                 </h3>
-                <p className="text-sm font-light text-gray-subtle leading-relaxed max-w-md">
+                <p className="text-sm font-light text-gray-subtle leading-relaxed max-w-md mb-4">
                   Your last order was sent to the chef on <span className="text-offwhite font-medium">{lastOrderTime}</span>.
                 </p>
+
+                {lastOrderItems && lastOrderItems.length > 0 && (
+                  <div className="w-full text-left bg-white/5 rounded-2xl p-6 border border-white/5 flex flex-col gap-4 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] max-w-md mx-auto">
+                    <span className="text-xs uppercase font-bold tracking-widest text-brand-orange/80 pb-3 border-b border-glass-border">Receipt</span>
+                    <div className="flex flex-col gap-3 max-h-48 overflow-y-auto no-scrollbar">
+                      {lastOrderItems.map(item => (
+                        <div key={item.cartItemId} className="flex justify-between items-center text-sm">
+                          <span className="text-gray-subtle"><span className="text-brand-orange">{item.quantity}x</span> {item.name}</span>
+                          <span className="text-brand-beige font-sans">₹{(item.price * item.quantity).toFixed(0)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </>
             ) : (
               <>
