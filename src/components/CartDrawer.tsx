@@ -21,6 +21,8 @@ export const CartDrawer: React.FC = () => {
     getTotal,
     tableNumber,
     clearCart,
+    lastOrderTime,
+    setLastOrderTime,
   } = useCartStore();
 
   const [promoInput, setPromoInput] = useState("");
@@ -47,6 +49,7 @@ export const CartDrawer: React.FC = () => {
     window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
     
     // Clear cart and close everything after ordering
+    setLastOrderTime(new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }));
     clearCart();
     setShowConfirmModal(false);
     closeCart();
@@ -120,12 +123,25 @@ export const CartDrawer: React.FC = () => {
                     <span className="absolute -inset-2 rounded-2xl border border-dashed border-brand-orange/20 animate-spin-slow pointer-events-none" />
                   </div>
                   <div className="flex flex-col gap-2 max-w-sm">
-                    <h3 className="font-display font-bold uppercase tracking-wider text-offwhite text-md">
-                      Aesthetic Gallery is Empty
-                    </h3>
-                    <p className="text-sm font-light text-gray-subtle leading-relaxed">
-                      Your wood-fired culinary masterpiece collection is currently empty. Add dynamic recipes to begin your journey.
-                    </p>
+                    {lastOrderTime ? (
+                      <>
+                        <h3 className="font-display font-bold uppercase tracking-wider text-[#25D366] text-md">
+                          Order Successfully Placed!
+                        </h3>
+                        <p className="text-sm font-light text-gray-subtle leading-relaxed">
+                          Your last order was sent to the chef on <span className="text-offwhite font-medium">{lastOrderTime}</span>.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <h3 className="font-display font-bold uppercase tracking-wider text-offwhite text-md">
+                          Aesthetic Gallery is Empty
+                        </h3>
+                        <p className="text-sm font-light text-gray-subtle leading-relaxed">
+                          Your wood-fired culinary masterpiece collection is currently empty. Add dynamic recipes to begin your journey.
+                        </p>
+                      </>
+                    )}
                   </div>
                   <Link
                     to="/menu"

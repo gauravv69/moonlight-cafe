@@ -18,6 +18,8 @@ export const CartPage: React.FC = () => {
     getTotal,
     tableNumber,
     clearCart,
+    lastOrderTime,
+    setLastOrderTime,
   } = useCartStore();
 
   const [promoInput, setPromoInput] = useState("");
@@ -44,6 +46,7 @@ export const CartPage: React.FC = () => {
     window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
     
     // Clear cart after ordering
+    setLastOrderTime(new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }));
     clearCart();
     setShowConfirmModal(false);
   };
