@@ -4,6 +4,10 @@ import { motion } from "framer-motion";
 import { ArrowRight, Flame, Heart, Sparkles, Star, Trophy } from "lucide-react";
 import { INSTAGRAM_POSTS, PIZZAS, REVIEWS } from "../mock-data/pizzas";
 
+// Replace this with your LightWidget ID (e.g. "e3b0c442") once you link your Instagram account on lightwidget.com!
+// While empty, it automatically displays your beautiful high-fidelity simulated real Instagram feed.
+const INSTAGRAM_WIDGET_ID = "";
+
 export const LandingPage: React.FC = () => {
   // Extract a few signature pizzas for the bento grid
   const signatures = PIZZAS.slice(0, 4);
@@ -175,7 +179,7 @@ export const LandingPage: React.FC = () => {
 
               <div className="flex items-center justify-between mt-auto">
                 <span className="text-xl font-bold text-brand-beige font-sans">
-                  ${signatures[1]?.price.toFixed(2)}
+                  ₹{signatures[1]?.price}
                 </span>
                 <Link
                   to={`/product/${signatures[1]?.id}`}
@@ -214,7 +218,7 @@ export const LandingPage: React.FC = () => {
               </div>
               <div className="flex items-center justify-between pt-4 border-t border-glass-border mt-auto">
                 <span className="text-base font-bold text-brand-beige font-sans">
-                  ${signatures[0]?.price.toFixed(2)}
+                  ₹{signatures[0]?.price}
                 </span>
                 <Link
                   to={`/product/${signatures[0]?.id}`}
@@ -254,7 +258,7 @@ export const LandingPage: React.FC = () => {
               </div>
               <div className="flex items-center justify-between pt-4 border-t border-glass-border mt-auto">
                 <span className="text-base font-bold text-brand-beige font-sans">
-                  ${signatures[2]?.price.toFixed(2)}
+                  ₹{signatures[2]?.price}
                 </span>
                 <Link
                   to={`/product/${signatures[2]?.id}`}
@@ -300,7 +304,7 @@ export const LandingPage: React.FC = () => {
 
               <div className="flex items-center justify-between mt-auto">
                 <span className="text-xl font-bold text-brand-beige font-sans">
-                  ${signatures[3]?.price.toFixed(2)}
+                  ₹{signatures[3]?.price}
                 </span>
                 <Link
                   to={`/product/${signatures[3]?.id}`}
@@ -319,7 +323,7 @@ export const LandingPage: React.FC = () => {
             to="/menu"
             className="group px-8 py-3.5 rounded-full border border-brand-beige/20 hover:border-brand-beige hover:bg-brand-beige/5 text-offwhite font-display text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:scale-[1.03] flex items-center gap-3 cursor-pointer"
           >
-            Unlock All 12 Masterpieces
+            Unlock the Full Culinary Gallery
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -547,34 +551,63 @@ export const LandingPage: React.FC = () => {
             </h2>
           </div>
           <a
-            href="#instagram"
+            href="https://www.instagram.com/moonlight_cafe_kolhapur/?hl=en"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-xs font-bold uppercase tracking-widest text-brand-beige hover:text-brand-orange font-display flex items-center gap-2 group transition-colors cursor-pointer"
           >
-            Follow @moonlight.cafe <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            Follow @moonlight_cafe_kolhapur <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-          {INSTAGRAM_POSTS.map((post) => (
-            <div
-              key={post.id}
-              className="aspect-square rounded-xl overflow-hidden border border-glass-border bg-brand-charcoal relative group shadow-md"
-            >
-              <img
-                src={post.url}
-                alt="Instagram food visual"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90 saturate-95"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                <svg className="w-5 h-5 text-white animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </div>
-            </div>
-          ))}
-        </div>
+        {INSTAGRAM_WIDGET_ID ? (
+          <div className="w-full rounded-2xl overflow-hidden border border-glass-border bg-brand-matte/40 p-1 md:p-3 shadow-2xl relative z-10 backdrop-blur-md">
+            <iframe 
+              src={`https://lightwidget.com/widgets/${INSTAGRAM_WIDGET_ID}.html`} 
+              scrolling="no" 
+              allowTransparency={true} 
+              className="lightwidget-widget w-full min-h-[500px] border-0 overflow-hidden rounded-xl"
+              title="Live Instagram Feed Widget"
+            />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+            {INSTAGRAM_POSTS.map((post) => (
+              <a
+                key={post.id}
+                href={post.postUrl || "https://www.instagram.com/moonlight_cafe_kolhapur/?hl=en"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="aspect-square rounded-xl overflow-hidden border border-glass-border bg-brand-charcoal relative group shadow-md block cursor-pointer"
+              >
+                <img
+                  src={post.url}
+                  alt={post.caption}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90 saturate-95"
+                />
+                <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2 p-3 text-center">
+                  {post.type === "reel" && (
+                    <span className="absolute top-2 right-2 text-[9px] bg-brand-orange text-offwhite px-2 py-0.5 rounded-full font-display uppercase tracking-wider font-extrabold shadow-sm">
+                      Reel
+                    </span>
+                  )}
+                  <svg className="w-5 h-5 text-brand-orange animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                  <p className="text-[10px] font-sans font-normal text-offwhite leading-relaxed line-clamp-2 px-1">
+                    {post.caption}
+                  </p>
+                  <div className="flex items-center gap-3 mt-1 text-[9px] font-display font-bold uppercase tracking-wider text-brand-beige">
+                    <span className="flex items-center gap-1">❤️ {post.likes}</span>
+                    <span className="flex items-center gap-1">💬 {post.comments}</span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
       </section>
 
 
