@@ -99,16 +99,16 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="flex flex-col gap-2.5 text-sm font-light text-gray-subtle leading-relaxed">
               <li>
-                <span className="font-semibold text-offwhite block">Mon - Thu:</span>
-                4:00 PM - 11:00 PM
+                <span className="font-semibold text-offwhite block">Lunch:</span>
+                12:00 PM - 3:00 PM
               </li>
               <li>
-                <span className="font-semibold text-offwhite block">Fri - Sun:</span>
-                12:00 PM - Midnight
+                <span className="font-semibold text-offwhite block">Dinner:</span>
+                5:00 PM - 10:00 PM
               </li>
               <li>
                 <span className="font-semibold text-offwhite block">Location:</span>
-                84 Neon Boulevard, SoHo, NY
+                Pratibha Nagar, Redyachi Takkar,<br/>Kolhapur
               </li>
             </ul>
           </div>

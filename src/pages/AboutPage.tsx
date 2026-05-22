@@ -31,7 +31,7 @@ export const AboutPage: React.FC = () => {
             className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700 filter brightness-90 saturate-[0.85] contrast-[1.05]"
           />
           <div className="absolute bottom-4 left-4 p-4 rounded-xl glass-panel border border-glass-border text-xs text-brand-beige">
-            Establishment SoHo, New York • 2026
+            Establishment Kolhapur • 2026
           </div>
         </div>
 
@@ -44,7 +44,7 @@ export const AboutPage: React.FC = () => {
             Campanian Sourdough, Born of Volcanic Air
           </h2>
           <p className="text-sm font-light text-gray-subtle leading-relaxed font-sans">
-            Our story doesn't begin in SoHo, but in the volcanic foothills of Mount Vesuvius. In 2024, our founders traveled to Campania, capturing wild airborne lactobacillus cultures directly from the orchard breezes of Sorrento.
+            Our story doesn't begin in Kolhapur, but in the volcanic foothills of Mount Vesuvius. In 2024, our owner traveled to Campania, capturing wild airborne lactobacillus cultures directly from the orchard breezes of Sorrento.
           </p>
           <p className="text-sm font-light text-gray-subtle leading-relaxed font-sans">
             That original sourdough culture—which we call "Vesuvio"—has been fed diligently every twelve hours for over two years. It gives our pizza dough its distinct tangy structural matrix, filled with intricate pocketing and a light, digestible character that makes each wood-fired slice feel like an absolute whisper.
@@ -91,7 +91,7 @@ export const AboutPage: React.FC = () => {
                 Suppliers Elite
               </h3>
               <p className="text-xs font-light text-gray-subtle leading-relaxed font-sans">
-                We work directly with certified Italian cooperatives. Our olive oil is cold-pressed within 3 hours of harvest; our burrata is stretched by hand in Apulia and air-shipped to SoHo three times a week.
+                We work directly with certified Italian cooperatives. Our olive oil is cold-pressed within 3 hours of harvest; our burrata is stretched by hand in Apulia and air-shipped to Kolhapur three times a week.
               </p>
             </div>
 
@@ -114,13 +114,13 @@ export const AboutPage: React.FC = () => {
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div className="flex flex-col gap-6">
           <span className="text-[10px] font-bold tracking-widest uppercase text-brand-orange font-display">
-            A word from The Founders
+            A word from The Owner
           </span>
           <blockquote className="font-serif text-xl sm:text-2xl font-light text-brand-beige leading-relaxed italic border-l-2 border-brand-orange pl-6 my-4">
             "Pizza has always been a beautiful geometric masterpiece. We simply stripped away the generic red borders and reframed it under modern luxury aesthetics for the next generation of food lovers."
           </blockquote>
           <p className="text-xs font-semibold uppercase tracking-widest text-offwhite font-display">
-            — Marc & Leo, Creative Directors, Moonlight Cafe
+            — Krushna Magdum, Owner, Moonlight Cafe
           </p>
         </div>
 
@@ -145,7 +145,7 @@ export const AboutPage: React.FC = () => {
             Ready to Experience the leopard Char?
           </h2>
           <p className="text-xs font-light text-gray-subtle max-w-md leading-relaxed font-sans">
-            Our doors in SoHo, NY are open. Taste sourdough proofed for 48 hours, fired in exatamente 60 seconds under split oak flames.
+            Our doors in Kolhapur are open. Taste sourdough proofed for 48 hours, fired in exactly 60 seconds under split oak flames.
           </p>
           <div className="flex gap-4 mt-2">
             <Link

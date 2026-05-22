@@ -210,7 +210,7 @@ export const ContactPage: React.FC = () => {
                 <MapPin className="w-4 h-4 text-brand-orange shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold text-offwhite block mb-0.5">Physical Sanctuary:</span>
-                  84 Neon Boulevard, SoHo, New York, NY 10012
+                  Pratibha Nagar, Redyachi Takkar,<br/>Opp. Aajra Urban Bank, Kolhapur
                 </div>
               </li>
 
@@ -218,7 +218,7 @@ export const ContactPage: React.FC = () => {
                 <Phone className="w-4 h-4 text-brand-orange shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold text-offwhite block mb-0.5">Telephone Dispatch:</span>
-                  +1 (212) 555-0199
+                  +91 99220 39599
                 </div>
               </li>
 
@@ -233,32 +233,19 @@ export const ContactPage: React.FC = () => {
             </ul>
           </div>
 
-          {/* Styled Abstract SoHo Map visual */}
-          <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-glass-border shadow-2xl bg-brand-matte flex items-center justify-center p-6 group">
-            {/* Matte map abstract grid lines */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none bg-radial-gradient(circle, transparent 30%, #050505 100%)">
-              {/* Fake grid map */}
-              <div className="w-full h-full border-t border-b border-l border-r border-white/40 flex flex-wrap">
-                {[...Array(24)].map((_, i) => (
-                  <div key={i} className="w-1/6 h-1/4 border-r border-b border-white/20" />
-                ))}
-              </div>
-            </div>
-
-            {/* Pulsing Moonlight logo coordinates */}
-            <div className="relative z-10 flex flex-col items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-brand-orange/15 border border-brand-orange/40 flex items-center justify-center animate-glow relative shadow-[0_0_30px_rgba(122,28,36,0.3)]">
-                <span className="text-sm select-none">🌙</span>
-                <span className="absolute -inset-2 rounded-full border border-dashed border-brand-orange/20 animate-spin-slow" />
-              </div>
-              <span className="text-[9px] font-black uppercase tracking-widest text-brand-beige font-display select-none">
-                MOONLIGHT SOHO DOME
-              </span>
-            </div>
+          {/* Embedded Google Map */}
+          <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-glass-border shadow-2xl bg-brand-matte group">
+            <iframe 
+              src="https://maps.google.com/maps?q=Moonlight+Cafe,+Opp.+Aajra+Urban+Bank,+Kolhapur&t=m&z=15&output=embed&iwloc=near" 
+              className="absolute inset-0 w-full h-full border-0 filter opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
             
-            <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-lg glass-panel border border-glass-border text-[9px] uppercase tracking-wider text-gray-subtle select-none">
-              40.7241° N, 74.0018° W
-            </div>
+            <a href="https://maps.app.goo.gl/Z9hq7Bzy5DP36CZp9" target="_blank" rel="noopener noreferrer" className="absolute bottom-4 right-4 px-5 py-2.5 rounded-lg bg-brand-charcoal border border-glass-border hover:border-brand-orange hover:text-brand-orange text-offwhite font-display text-[10px] font-black uppercase tracking-widest transition-all shadow-xl hover:scale-105 z-20 cursor-pointer flex items-center gap-2 backdrop-blur-md">
+              <MapPin className="w-3.5 h-3.5" /> Get Directions
+            </a>
           </div>
 
         </div>

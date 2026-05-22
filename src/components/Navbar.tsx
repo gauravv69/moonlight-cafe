@@ -33,14 +33,12 @@ export const Navbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Brand Logo */}
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="relative w-8 h-8 rounded-full bg-brand-orange flex items-center justify-center overflow-hidden shadow-[0_0_15px_rgba(122,28,36,0.4)] group-hover:scale-105 transition-transform duration-300">
-            <span className="text-white text-base select-none">🌙</span>
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/20 animate-pulse-slow" />
-          </div>
-          <span className="font-display font-bold text-lg md:text-xl tracking-wider uppercase text-offwhite group-hover:text-brand-orange transition-colors duration-300">
-            Moonlight <span className="font-light text-brand-beige">Cafe</span>
-          </span>
+        <Link to="/" className="flex items-center group">
+          <img 
+            src="/logo.jpg" 
+            alt="Moonlight Cafe" 
+            className="h-12 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+          />
         </Link>
 
         {/* Central Navigation (Hidden on mobile, mobile bottom nav takes over) */}

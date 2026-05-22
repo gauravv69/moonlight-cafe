@@ -214,7 +214,7 @@ export const CheckoutPage: React.FC = () => {
                 <input
                   type="text"
                   required={deliveryMethod === "delivery"}
-                  placeholder="84 Neon Boulevard, SoHo, New York, NY 10012"
+                  placeholder="Pratibha Nagar, Redyachi Takkar, Kolhapur"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   className="w-full glass-input px-4 py-3 rounded-xl text-sm font-light"
@@ -222,7 +222,7 @@ export const CheckoutPage: React.FC = () => {
               </div>
             ) : (
               <div className="p-4 rounded-xl bg-white/5 border border-glass-border text-xs text-gray-subtle leading-relaxed">
-                📍 You have selected <span className="font-bold text-brand-beige">Pickup</span>. Your order will be prepared at: <span className="text-brand-orange">84 Neon Boulevard, SoHo, NY</span> for ready hand-off in 15 mins.
+                📍 You have selected <span className="font-bold text-brand-beige">Pickup</span>. Your order will be prepared at: <span className="text-brand-orange">Pratibha Nagar, Redyachi Takkar, Kolhapur</span> for ready hand-off in 15 mins.
               </div>
             )}
           </div>
