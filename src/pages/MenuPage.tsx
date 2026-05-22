@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Leaf, Search, ShoppingBag, SlidersHorizontal, Sparkles, Flame, Eye } from "lucide-react";

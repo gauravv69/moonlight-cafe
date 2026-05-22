@@ -13,11 +13,8 @@ export const CartPage: React.FC = () => {
     promoDiscount,
     applyPromoCode,
     removePromoCode,
-    deliveryMethod,
-    setDeliveryMethod,
     getSubtotal,
     getDiscountAmount,
-    getDeliveryFee,
     getTotal,
     tableNumber,
   } = useCartStore();
