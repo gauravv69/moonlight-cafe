@@ -105,9 +105,9 @@ export const CartDrawer: React.FC = () => {
               {cart.length === 0 ? (
                 /* Empty State */
                 <div className="flex-1 flex flex-col items-center justify-center text-center gap-6 py-20">
-                  <div className="relative w-24 h-24 rounded-full bg-brand-darkgray/40 flex items-center justify-center border border-glass-border/20 shadow-[inset_0_0_20px_rgba(122,28,36,0.05)]">
-                    <span className="text-4xl">🌙</span>
-                    <div className="absolute inset-0 rounded-full border border-dashed border-brand-orange/25 animate-spin-slow" />
+                  <div className="relative w-24 h-24 flex items-center justify-center animate-glow bg-black rounded-2xl overflow-hidden p-2 shadow-[0_0_30px_rgba(122,28,36,0.2)]">
+                    <img src="/logo.jpg" alt="Moonlight Cafe" className="w-full h-full object-contain" />
+                    <span className="absolute -inset-2 rounded-2xl border border-dashed border-brand-orange/20 animate-spin-slow pointer-events-none" />
                   </div>
                   <div className="flex flex-col gap-2 max-w-sm">
                     <h3 className="font-display font-bold uppercase tracking-wider text-offwhite text-md">
@@ -196,13 +196,13 @@ export const CartDrawer: React.FC = () => {
 
             {/* Bottom Billing Details (Rendered if items exist) */}
             {cart.length > 0 && (
-              <div className="p-6 border-t border-glass-border bg-brand-charcoal relative">
+              <div className="p-6 pb-10 md:pb-6 border-t border-glass-border bg-brand-charcoal relative">
                 {/* Promo Code Form */}
                 <form onSubmit={handleApplyPromo} className="mb-6 flex gap-2">
                   <div className="relative flex-1">
                     <input
                       type="text"
-                      placeholder="PROMO CODE (e.g. MOONGLOW)"
+                      placeholder="PROMO CODE"
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value)}
                       className="w-full glass-input px-4 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest"

@@ -137,13 +137,7 @@ export const useCartStore = create<CartState>((set, get) => ({
   },
 
   getDeliveryFee: () => {
-    const subtotal = get().getSubtotal();
-    const method = get().deliveryMethod;
-    const tableNumber = get().tableNumber;
-    if (tableNumber || subtotal === 0 || method === "pickup" || subtotal > 1000) {
-      return 0; // Free delivery over 1000 or on pickup or dine-in
-    }
-    return get().deliveryFee;
+    return 0; // Delivery fees handled directly by the restaurant via WhatsApp
   },
 
   getTotal: () => {
