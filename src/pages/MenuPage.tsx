@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Leaf, Search, ShoppingBag, SlidersHorizontal, Sparkles, Flame, Eye } from "lucide-react";
 import { CATEGORIES, PIZZAS } from "../mock-data/pizzas";
@@ -8,10 +8,22 @@ import { toast } from "../store/toastStore";
 
 export const MenuPage: React.FC = () => {
   const { addToCart } = useCartStore();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [dietFilter, setDietFilter] = useState<"all" | "veg" | "non-veg">("all");
-  const [sortBy, setSortBy] = useState<"default" | "price-low" | "price-high">("default");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchTerm = searchParams.get("q") || "";
+  const selectedCategory = searchParams.get("category") || "All";
+  const dietFilter = (searchParams.get("diet") as "all" | "veg" | "non-veg") || "all";
+  const sortBy = (searchParams.get("sort") as "default" | "price-low" | "price-high") || "default";
+
+  const updateSearchParam = (key: string, value: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (!value || value === "All" || value === "all" || value === "default") {
+      newParams.delete(key);
+    } else {
+      newParams.set(key, value);
+    }
+    setSearchParams(newParams, { replace: true });
+  };
 
   // Filter and Sort Menu Items
   const filteredItems = useMemo(() => {
@@ -86,7 +98,7 @@ export const MenuPage: React.FC = () => {
             return (
               <button
                 key={cat}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => updateSearchParam("category", cat)}
                 className={`px-5 py-2.5 rounded-full text-[10px] font-display font-extrabold uppercase tracking-widest transition-all duration-300 relative cursor-pointer ${
                   isSelected
                     ? "bg-brand-orange text-white border border-brand-orange/40 shadow-[0_0_20px_rgba(122,28,36,0.5)]"
@@ -111,7 +123,7 @@ export const MenuPage: React.FC = () => {
               type="text"
               placeholder="Search recipe, ingredients, tags..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => updateSearchParam("q", e.target.value)}
               className="w-full glass-input pl-12 pr-4 py-3.5 rounded-full text-xs uppercase tracking-wider font-semibold"
             />
           </div>
@@ -130,7 +142,7 @@ export const MenuPage: React.FC = () => {
                 return (
                   <button
                     key={diet.id}
-                    onClick={() => setDietFilter(diet.id as any)}
+                    onClick={() => updateSearchParam("diet", diet.id)}
                     className={`flex-1 md:flex-none px-4 py-2 rounded-full text-[9px] font-display font-extrabold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer ${
                       isActive
                         ? diet.id === "veg"
@@ -152,7 +164,7 @@ export const MenuPage: React.FC = () => {
             <div className="relative shrink-0 w-full md:w-48">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => updateSearchParam("sort", e.target.value)}
                 className="w-full appearance-none glass-input px-5 py-3.5 pr-10 rounded-full text-xs font-display font-bold uppercase tracking-widest cursor-pointer text-offwhite"
               >
                 <option value="default">Sort: Fermentation</option>

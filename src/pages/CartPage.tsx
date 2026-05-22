@@ -18,7 +18,6 @@ export const CartPage: React.FC = () => {
     getSubtotal,
     getDiscountAmount,
     getDeliveryFee,
-    getDeliveryFee,
     getTotal,
     tableNumber,
   } = useCartStore();
@@ -27,17 +26,12 @@ export const CartPage: React.FC = () => {
 
   const handleWhatsAppOrder = () => {
     const phone = "918446424727"; // Cafe owner/chef WhatsApp number
-    let message = `*New Order from Table ${tableNumber}* 🍕\n\n`;
+    let message = tableNumber 
+      ? `*New Order from Table ${tableNumber}* 🍕\n\n`
+      : `*New Order* 🍕\n\n`;
     
     cart.forEach((item) => {
       message += `• ${item.quantity}x ${item.name} (₹${(item.price * item.quantity).toFixed(0)})\n`;
-      message += `   [${item.customization.crust}, ${item.customization.cheese}]\n`;
-      if (item.customization.toppings.length > 0) {
-        message += `   + Toppings: ${item.customization.toppings.join(", ")}\n`;
-      }
-      if (item.customization.spiceLevel > 0) {
-        message += `   Spice: ${"🔥".repeat(item.customization.spiceLevel)}\n`;
-      }
       message += `\n`;
     });
     
@@ -134,28 +128,7 @@ export const CartPage: React.FC = () => {
                       </span>
                     </div>
 
-                    {/* Custom options row */}
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      <span className="text-[9px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full bg-white/5 text-brand-beige border border-white/5">
-                        {item.customization.crust}
-                      </span>
-                      <span className="text-[9px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full bg-white/5 text-brand-beige border border-white/5">
-                        {item.customization.cheese}
-                      </span>
-                      {item.customization.toppings.map((t) => (
-                        <span
-                          key={t}
-                          className="text-[9px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full bg-brand-orange/10 text-brand-orange border border-brand-orange/20"
-                        >
-                          + {t}
-                        </span>
-                      ))}
-                      {item.customization.spiceLevel > 0 && (
-                        <span className="text-[9px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full bg-red-950/20 text-red-400 border border-red-500/10">
-                          {"🔥".repeat(item.customization.spiceLevel)} Spicy
-                        </span>
-                      )}
-                    </div>
+                    {/* Customization options row removed as per simplified flow */}
                   </div>
 
                   {/* Adjuster footer */}
@@ -201,8 +174,8 @@ export const CartPage: React.FC = () => {
           {/* Right Column: Dynamic Billing Box */}
           <div className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-28">
             
-            {/* Delivery/Pickup Select OR Table Badge */}
-            {tableNumber ? (
+            {/* Table Badge (If Dine-in) */}
+            {tableNumber && (
               <div className="glass-panel p-4 rounded-2xl border border-brand-orange/30 bg-brand-orange/5 flex flex-col items-center gap-1 shadow-md text-center">
                 <span className="text-[10px] font-bold tracking-widest uppercase text-brand-orange font-display">
                   Dine-in Order
@@ -210,29 +183,6 @@ export const CartPage: React.FC = () => {
                 <span className="text-xl font-display font-black text-offwhite">
                   Table #{tableNumber}
                 </span>
-              </div>
-            ) : (
-              <div className="glass-panel p-4 rounded-2xl border border-glass-border flex gap-2 shadow-md">
-                <button
-                  onClick={() => setDeliveryMethod("delivery")}
-                  className={`flex-1 py-3 rounded-xl border text-xs font-display font-bold uppercase tracking-widest transition-all cursor-pointer ${
-                    deliveryMethod === "delivery"
-                      ? "border-brand-orange bg-brand-orange/5 text-brand-orange"
-                      : "border-transparent text-gray-subtle hover:text-offwhite"
-                  }`}
-                >
-                  Delivery
-                </button>
-                <button
-                  onClick={() => setDeliveryMethod("pickup")}
-                  className={`flex-1 py-3 rounded-xl border text-xs font-display font-bold uppercase tracking-widest transition-all cursor-pointer ${
-                    deliveryMethod === "pickup"
-                      ? "border-brand-orange bg-brand-orange/5 text-brand-orange"
-                      : "border-transparent text-gray-subtle hover:text-offwhite"
-                  }`}
-                >
-                  Pickup
-                </button>
               </div>
             )}
 
@@ -291,15 +241,6 @@ export const CartPage: React.FC = () => {
                   </div>
                 )}
 
-                {!tableNumber && (
-                  <div className="flex justify-between">
-                    <span>Transport/Delivery</span>
-                    <span className="font-semibold font-sans text-offwhite">
-                      {getDeliveryFee() === 0 ? "FREE" : `₹${getDeliveryFee().toFixed(0)}`}
-                    </span>
-                  </div>
-                )}
-
                 <div className="h-[1px] bg-glass-border my-2" />
 
                 <div className="flex justify-between text-lg text-offwhite font-bold font-display">
@@ -316,21 +257,12 @@ export const CartPage: React.FC = () => {
               )}
 
               {/* CTA button */}
-              {tableNumber ? (
-                <button
-                  onClick={handleWhatsAppOrder}
-                  className="w-full block py-4 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-display text-xs font-black tracking-widest uppercase text-center transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-[#25D366]/20 cursor-pointer"
-                >
-                  Place Order on WhatsApp
-                </button>
-              ) : (
-                <Link
-                  to="/checkout"
-                  className="w-full block py-4 rounded-full bg-brand-orange hover:bg-brand-orange-light text-white font-display text-xs font-black tracking-widest uppercase text-center transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-brand-orange/15 cursor-pointer"
-                >
-                  Proceed to Checkout
-                </Link>
-              )}
+              <button
+                onClick={handleWhatsAppOrder}
+                className="w-full block py-4 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-display text-xs font-black tracking-widest uppercase text-center transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-[#25D366]/20 cursor-pointer"
+              >
+                Place Order on WhatsApp
+              </button>
             </div>
             
           </div>

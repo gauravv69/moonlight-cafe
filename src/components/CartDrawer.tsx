@@ -18,11 +18,33 @@ export const CartDrawer: React.FC = () => {
     removePromoCode,
     getSubtotal,
     getDiscountAmount,
-    getDeliveryFee,
     getTotal,
+    tableNumber,
   } = useCartStore();
 
   const [promoInput, setPromoInput] = useState("");
+
+  const handleWhatsAppOrder = () => {
+    const phone = "918446424727"; // Cafe owner/chef WhatsApp number
+    let message = tableNumber 
+      ? `*New Order from Table ${tableNumber}* 🍕\n\n`
+      : `*New Order* 🍕\n\n`;
+    
+    cart.forEach((item) => {
+      message += `• ${item.quantity}x ${item.name} (₹${(item.price * item.quantity).toFixed(0)})\n`;
+      message += `\n`;
+    });
+    
+    message += `*Subtotal:* ₹${getSubtotal().toFixed(0)}\n`;
+    if (getDiscountAmount() > 0) {
+      message += `*Discount (${promoCode}):* -₹${getDiscountAmount().toFixed(0)}\n`;
+    }
+    message += `*Total Bill:* ₹${getTotal().toFixed(0)}\n`;
+
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
+    closeCart();
+  };
 
   const handleApplyPromo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -135,28 +157,7 @@ export const CartDrawer: React.FC = () => {
                           </span>
                         </div>
 
-                        {/* Customization Badging */}
-                        <div className="flex flex-wrap gap-1.5 mt-2">
-                          <span className="text-[9px] font-medium tracking-wide uppercase px-2 py-0.5 rounded-full bg-white/5 text-brand-beige">
-                            {item.customization.crust}
-                          </span>
-                          <span className="text-[9px] font-medium tracking-wide uppercase px-2 py-0.5 rounded-full bg-white/5 text-brand-beige">
-                            {item.customization.cheese}
-                          </span>
-                          {item.customization.toppings.map((t) => (
-                            <span
-                              key={t}
-                              className="text-[9px] font-medium tracking-wide uppercase px-2 py-0.5 rounded-full bg-brand-orange/10 text-brand-orange border border-brand-orange/15"
-                            >
-                              + {t}
-                            </span>
-                          ))}
-                          {item.customization.spiceLevel > 0 && (
-                            <span className="text-[9px] font-medium tracking-wide uppercase px-2 py-0.5 rounded-full bg-red-950/20 text-red-400 border border-red-500/10">
-                              {"🔥".repeat(item.customization.spiceLevel)} Spicy
-                            </span>
-                          )}
-                        </div>
+                        {/* Customization Badging removed as per simplified flow */}
                       </div>
 
                       {/* Quantity Toggles */}
@@ -245,13 +246,6 @@ export const CartDrawer: React.FC = () => {
                     </div>
                   )}
 
-                  <div className="flex justify-between">
-                    <span>Delivery Fee</span>
-                    <span className="font-medium font-sans text-offwhite">
-                      {getDeliveryFee() === 0 ? "FREE" : `₹${getDeliveryFee().toFixed(0)}`}
-                    </span>
-                  </div>
-
                   <div className="flex justify-between pt-3 border-t border-glass-border text-base text-offwhite font-bold font-display">
                     <span>Total Amount</span>
                     <span className="font-sans text-brand-beige">₹{getTotal().toFixed(0)}</span>
@@ -259,13 +253,12 @@ export const CartDrawer: React.FC = () => {
                 </div>
 
                 {/* CTA Action */}
-                <Link
-                  to="/checkout"
-                  onClick={closeCart}
-                  className="w-full block py-4 rounded-full bg-brand-orange hover:bg-brand-orange-light text-white font-display text-xs font-black tracking-widest uppercase text-center transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-brand-orange/15 cursor-pointer"
+                <button
+                  onClick={handleWhatsAppOrder}
+                  className="w-full block py-4 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-display text-xs font-black tracking-widest uppercase text-center transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-[#25D366]/20 cursor-pointer"
                 >
-                  Proceed to Checkout
-                </Link>
+                  Place Order on WhatsApp
+                </button>
               </div>
             )}
           </motion.div>
