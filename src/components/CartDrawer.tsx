@@ -20,11 +20,13 @@ export const CartDrawer: React.FC = () => {
     getDiscountAmount,
     getTotal,
     tableNumber,
+    clearCart,
   } = useCartStore();
 
   const [promoInput, setPromoInput] = useState("");
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const handleWhatsAppOrder = () => {
+  const confirmAndSendOrder = () => {
     const phone = "918446424727"; // Cafe owner/chef WhatsApp number
     let message = tableNumber 
       ? `*New Order from Table ${tableNumber}* 🍕\n\n`
@@ -43,7 +45,15 @@ export const CartDrawer: React.FC = () => {
 
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
+    
+    // Clear cart and close everything after ordering
+    clearCart();
+    setShowConfirmModal(false);
     closeCart();
+  };
+
+  const handleWhatsAppOrder = () => {
+    setShowConfirmModal(true);
   };
 
   const handleApplyPromo = (e: React.FormEvent) => {
@@ -263,6 +273,59 @@ export const CartDrawer: React.FC = () => {
             )}
           </motion.div>
         </>
+      )}
+      
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            onClick={() => setShowConfirmModal(false)}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative w-full max-w-md bg-brand-charcoal border border-glass-border rounded-2xl p-6 shadow-2xl flex flex-col gap-6"
+          >
+            <div className="flex flex-col gap-2 text-center">
+              <h3 className="text-xl font-display font-bold uppercase tracking-widest text-offwhite">Confirm Order</h3>
+              <p className="text-sm font-light text-gray-subtle">Review your selections before sending to the kitchen.</p>
+            </div>
+            
+            <div className="flex flex-col gap-3 max-h-[40vh] overflow-y-auto no-scrollbar border-y border-glass-border py-4">
+              {cart.map(item => (
+                <div key={item.cartItemId} className="flex justify-between items-center text-sm">
+                  <span className="text-offwhite"><span className="text-brand-orange">{item.quantity}x</span> {item.name}</span>
+                  <span className="text-brand-beige font-sans">₹{(item.price * item.quantity).toFixed(0)}</span>
+                </div>
+              ))}
+            </div>
+            
+            <div className="flex justify-between items-center text-lg font-bold font-display text-offwhite px-2">
+              <span>TOTAL</span>
+              <span className="text-brand-orange">₹{getTotal().toFixed(0)}</span>
+            </div>
+            
+            <div className="flex flex-col gap-3 mt-2">
+              <button
+                onClick={confirmAndSendOrder}
+                className="w-full py-3.5 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-display text-xs font-black tracking-widest uppercase text-center transition-all shadow-lg hover:scale-[1.02] cursor-pointer"
+              >
+                Confirm & Send to Chef
+              </button>
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="w-full py-3.5 rounded-full border border-glass-border hover:border-offwhite/20 text-gray-subtle hover:text-offwhite font-display text-xs font-bold tracking-widest uppercase text-center transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );
