@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface PizzaCustomization {
   crust: string;
@@ -51,7 +52,9 @@ export const generateCartItemId = (pizzaId: string, custom: PizzaCustomization):
   return `${pizzaId}-${custom.crust.replace(/\s+/g, "")}-${custom.cheese.replace(/\s+/g, "")}-${toppingsStr}-${custom.spiceLevel}`;
 };
 
-export const useCartStore = create<CartState>((set, get) => ({
+export const useCartStore = create<CartState>()(
+  persist(
+    (set, get) => ({
   cart: [],
   isOpen: false,
   promoCode: "",
@@ -147,4 +150,13 @@ export const useCartStore = create<CartState>((set, get) => ({
   getTotal: () => {
     return get().getSubtotal() - get().getDiscountAmount() + get().getDeliveryFee();
   },
-}));
+}),
+    {
+      name: "moonlight-cart-storage",
+      partialize: (state) => ({ 
+        cart: state.cart,
+        lastOrderTime: state.lastOrderTime 
+      }),
+    }
+  )
+);
