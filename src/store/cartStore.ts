@@ -24,6 +24,8 @@ interface CartState {
   promoDiscount: number; // Decimal representing percentage (e.g., 0.15 for 15%)
   deliveryMethod: "delivery" | "pickup";
   deliveryFee: number;
+  tableNumber: string | null;
+  setTableNumber: (table: string | null) => void;
   openCart: () => void;
   closeCart: () => void;
   addToCart: (item: Omit<CartItem, "cartItemId">) => void;
@@ -53,8 +55,10 @@ export const useCartStore = create<CartState>((set, get) => ({
   promoCode: "",
   promoDiscount: 0,
   deliveryMethod: "delivery",
-  deliveryFee: 4.99,
+  deliveryFee: 120,
+  tableNumber: null,
 
+  setTableNumber: (table) => set({ tableNumber: table }),
   openCart: () => set({ isOpen: true }),
   closeCart: () => set({ isOpen: false }),
 
@@ -135,8 +139,9 @@ export const useCartStore = create<CartState>((set, get) => ({
   getDeliveryFee: () => {
     const subtotal = get().getSubtotal();
     const method = get().deliveryMethod;
-    if (subtotal === 0 || method === "pickup" || subtotal > 50) {
-      return 0; // Free delivery over $50 or on pickup
+    const tableNumber = get().tableNumber;
+    if (tableNumber || subtotal === 0 || method === "pickup" || subtotal > 1000) {
+      return 0; // Free delivery over 1000 or on pickup or dine-in
     }
     return get().deliveryFee;
   },

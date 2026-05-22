@@ -343,7 +343,7 @@ export const CheckoutPage: React.FC = () => {
                     </span>
                   </div>
                   <span className="font-semibold font-sans text-brand-beige shrink-0">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ₹{(item.price * item.quantity).toFixed(0)}
                   </span>
                 </div>
               ))}
@@ -355,18 +355,18 @@ export const CheckoutPage: React.FC = () => {
             <div className="flex flex-col gap-2.5 text-xs font-light text-gray-subtle">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span className="font-semibold text-offwhite">${getSubtotal().toFixed(2)}</span>
+                <span className="font-semibold text-offwhite">₹{getSubtotal().toFixed(0)}</span>
               </div>
               {getDiscountAmount() > 0 && (
                 <div className="flex justify-between text-brand-orange">
                   <span>Discount</span>
-                  <span>-${getDiscountAmount().toFixed(2)}</span>
+                  <span>-₹{getDiscountAmount().toFixed(0)}</span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span>Delivery/Handling</span>
                 <span className="font-semibold text-offwhite">
-                  {getDeliveryFee() === 0 ? "FREE" : `$${getDeliveryFee().toFixed(2)}`}
+                  {getDeliveryFee() === 0 ? "FREE" : `₹${getDeliveryFee().toFixed(0)}`}
                 </span>
               </div>
 
@@ -374,7 +374,7 @@ export const CheckoutPage: React.FC = () => {
 
               <div className="flex justify-between text-sm text-offwhite font-bold font-display">
                 <span>Total Charge</span>
-                <span className="font-sans text-brand-beige">${getTotal().toFixed(2)}</span>
+                <span className="font-sans text-brand-beige">₹{getTotal().toFixed(0)}</span>
               </div>
             </div>
 
@@ -404,7 +404,7 @@ export const CheckoutPage: React.FC = () => {
                   Baking Sourdough...
                 </>
               ) : (
-                `Place Sourdough Order • $${getTotal().toFixed(2)}`
+                `Place Sourdough Order • ₹${getTotal().toFixed(0)}`
               )}
             </button>
           </div>

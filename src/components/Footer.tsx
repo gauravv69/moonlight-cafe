@@ -40,7 +40,9 @@ export const Footer: React.FC = () => {
             {/* Social Links */}
             <div className="flex items-center gap-4 text-gray-subtle">
               <a
-                href="#instagram"
+                href="https://www.instagram.com/moonlight_cafe_kolhapur/?hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-2.5 rounded-full border border-glass-border hover:border-offwhite/20 hover:text-brand-orange transition-all duration-300 hover:scale-105"
                 aria-label="Instagram link"
               >

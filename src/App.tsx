@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, useSearchParams } from "react-router-dom";
+import { useCartStore } from "./store/cartStore";
 import { MainLayout } from "./layouts/MainLayout";
 import { AboutPage } from "./pages/AboutPage";
 import { CartPage } from "./pages/CartPage";
@@ -9,6 +10,21 @@ import { LandingPage } from "./pages/LandingPage";
 import { MenuPage } from "./pages/MenuPage";
 import { ProductDetailPage } from "./pages/ProductDetailPage";
 import "./App.css";
+
+// Helper to capture table number from QR code scans
+const TableCapture: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const setTableNumber = useCartStore((state) => state.setTableNumber);
+
+  useEffect(() => {
+    const table = searchParams.get("table");
+    if (table) {
+      setTableNumber(table);
+    }
+  }, [searchParams, setTableNumber]);
+
+  return null;
+};
 
 // Helper component to reset scroll position on page transitions
 const ScrollToTop: React.FC = () => {
@@ -29,6 +45,7 @@ export const App: React.FC = () => {
     <BrowserRouter>
       {/* Dynamic Scroll position restorer */}
       <ScrollToTop />
+      <TableCapture />
       
       {/* Sticky Main layout wrapper */}
       <MainLayout>

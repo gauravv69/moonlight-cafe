@@ -131,7 +131,7 @@ export const CartDrawer: React.FC = () => {
                             {item.name}
                           </h4>
                           <span className="font-sans font-bold text-sm text-brand-beige shrink-0">
-                            ${(item.price * item.quantity).toFixed(2)}
+                            ₹{(item.price * item.quantity).toFixed(0)}
                           </span>
                         </div>
 
@@ -235,26 +235,26 @@ export const CartDrawer: React.FC = () => {
 
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span className="font-medium font-sans text-offwhite">${getSubtotal().toFixed(2)}</span>
+                    <span className="font-medium font-sans text-offwhite">₹{getSubtotal().toFixed(0)}</span>
                   </div>
 
                   {promoCode && (
                     <div className="flex justify-between text-brand-orange font-medium">
                       <span>Discount</span>
-                      <span className="font-sans">-${getDiscountAmount().toFixed(2)}</span>
+                      <span className="font-sans">-₹{getDiscountAmount().toFixed(0)}</span>
                     </div>
                   )}
 
                   <div className="flex justify-between">
                     <span>Delivery Fee</span>
                     <span className="font-medium font-sans text-offwhite">
-                      {getDeliveryFee() === 0 ? "FREE" : `$${getDeliveryFee().toFixed(2)}`}
+                      {getDeliveryFee() === 0 ? "FREE" : `₹${getDeliveryFee().toFixed(0)}`}
                     </span>
                   </div>
 
                   <div className="flex justify-between pt-3 border-t border-glass-border text-base text-offwhite font-bold font-display">
                     <span>Total Amount</span>
-                    <span className="font-sans text-brand-beige">${getTotal().toFixed(2)}</span>
+                    <span className="font-sans text-brand-beige">₹{getTotal().toFixed(0)}</span>
                   </div>
                 </div>
 
